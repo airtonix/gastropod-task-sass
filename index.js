@@ -22,7 +22,7 @@ var Logging = require('gastropod/src/core/logging'),
 	Logger = Logging.Logger,
 	ErrorHandler = Logging.ErrorHandler;
 
-var defaults = {
+var DEFAULT_CONFIG = {
 	errLogToConsole: true,
 	includePaths: []
 }
@@ -58,7 +58,7 @@ module.exports = function (gulp, gastro){
 						   Config.source.styles,
 						   Config.filters.styles),
 
-		SassConfig = Config.plugins.css.sass || defaults;
+		SassConfig = Config.plugins.css.sass || DEFAULT_CONFIG;
 
 	gulp.task('scss', function(done){
 
