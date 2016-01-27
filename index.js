@@ -12,16 +12,12 @@ var sass = require('gulp-sass'),
 	debug = require('debug')('gastropod/addons/tasks/sass'),
 	plumber = require('gulp-plumber'),
 	named = require('vinyl-named'),
-	accept = require('check-args'),
-	through = require('through2');
+	// logging = require('gastropod').Logging
+	accept = require('check-args');
 
 /**
   * Project
   */
-var Logging = require('gastropod/src/core/logging'),
-	Logger = Logging.Logger,
-	ErrorHandler = Logging.ErrorHandler;
-
 var DEFAULT_CONFIG = {
 	errLogToConsole: true,
 	includePaths: []
@@ -36,8 +32,6 @@ var buildPath = accept(String, String, String)
 				});
 
 
-var logger = new Logger('css:scss');
-
 /**
  * Exportable
  */
@@ -45,10 +39,10 @@ module.exports = function (gulp, gastro){
 	/**
 	 * Constants
 	 */
+
 	var Config = gastro.Config,
 
-		incoming = logger.incoming(),
-		outgoing = logger.outgoing(),
+		// logger = new logging.Logger('css:scss'),
 
 		target = buildPath(Config.target.root,
 						   Config.target.static,
@@ -68,12 +62,12 @@ module.exports = function (gulp, gastro){
 
 		return gulp.src(source)
 			.pipe(named())
-			.pipe(incoming)
-			.pipe(plumber(ErrorHandler('CSS:Scss')))
+			// .pipe(logger.incoming())
+			// .pipe(plumber(ErrorHandler('CSS:Scss')))
 			.pipe(sourcemaps.init())
 			.pipe(sass(SassConfig))
 			.pipe(sourcemaps.write('./maps'))
-			.pipe(outgoing)
+			// .pipe(logger.outgoing())
 			.pipe(gulp.dest(target));
 
 	});
