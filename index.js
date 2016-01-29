@@ -12,7 +12,6 @@ var sass = require('gulp-sass'),
 	debug = require('debug')('gastropod/addons/tasks/sass'),
 	plumber = require('gulp-plumber'),
 	named = require('vinyl-named'),
-	// logging = require('gastropod').Logging
 	accept = require('check-args');
 
 /**
@@ -42,8 +41,6 @@ module.exports = function (gulp, gastro){
 
 	var Config = gastro.Config,
 
-		// logger = new logging.Logger('css:scss'),
-
 		target = buildPath(Config.target.root,
 						   Config.target.static,
 						   Config.target.styles),
@@ -62,12 +59,9 @@ module.exports = function (gulp, gastro){
 
 		return gulp.src(source)
 			.pipe(named())
-			// .pipe(logger.incoming())
-			// .pipe(plumber(ErrorHandler('CSS:Scss')))
 			.pipe(sourcemaps.init())
 			.pipe(sass(SassConfig))
 			.pipe(sourcemaps.write('./maps'))
-			// .pipe(logger.outgoing())
 			.pipe(gulp.dest(target));
 
 	});
