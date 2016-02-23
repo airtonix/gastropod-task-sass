@@ -58,6 +58,7 @@ module.exports = function (gulp, gastro){
 		debug(' > target', target);
 
 		return gulp.src(source)
+			.pipe(plumber())
 			.pipe(named())
 			.pipe(sourcemaps.init())
 			.pipe(sass(SassConfig))

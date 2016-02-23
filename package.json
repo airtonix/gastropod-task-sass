@@ -13,9 +13,10 @@
     "type": "task"
   },
   "scripts": {
+    "test": "mocha -R spec --recursive",
     "merge-to-master": "git checkout master && git merge develop",
     "merge-to-develop": "git checkout develop && git merge master",
-    "pre-shrinkwrap": "rm shrinkwrap.json",
+    "pre-shrinkwrap": "touch npm-shrinkwrap.json && rm npm-shrinkwrap.json",
     "post-shrinkwrap": "git commit -am 'preversion: recreate shrinkwrap' ",
     "push": "git push --all && git push --tags",
     "preversion": "npm run merge-to-master && npm shrinkwrap",
