@@ -3,6 +3,10 @@
   "version": "0.0.4",
   "description": "gastropod addon",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/airtonix/gastropod-task-sass.git"
+  },
   "keywords": [
     "gastropod",
     "gastropod-task",
