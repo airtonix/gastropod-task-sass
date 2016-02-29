@@ -38,6 +38,12 @@ module.exports = function (gulp, gastro){
 	/**
 	 * Constants
 	 */
+	function ErrorHandler (err) {
+		gastro.Plugins.util.PluginError('task-sass', err, {
+			showStack: true
+		});
+		this.emit('end');
+	}
 
 	var Config = gastro.Config,
 
@@ -58,7 +64,7 @@ module.exports = function (gulp, gastro){
 		debug(' > target', target);
 
 		return gulp.src(source)
-			.pipe(plumber())
+			.pipe(plumber(ErrorHandler))
 			.pipe(named())
 			.pipe(sourcemaps.init())
 			.pipe(sass(SassConfig))
