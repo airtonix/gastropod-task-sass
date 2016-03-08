@@ -1,6 +1,6 @@
 {
   "name": "gastropod-task-sass",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "dependencies": {
     "check-args": {
       "version": "0.0.6",
