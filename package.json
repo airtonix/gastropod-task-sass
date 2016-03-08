@@ -17,14 +17,17 @@
     "type": "task"
   },
   "scripts": {
+    "preinstall": "npm config set msvs_version 2012",
     "test": "mocha -R spec --recursive",
+    "dev": "mocha -R spec --recursive -w",
     "merge-to-master": "git checkout master && git merge develop",
     "merge-to-develop": "git checkout develop && git merge master",
-    "pre-shrinkwrap": "touch npm-shrinkwrap.json && rm npm-shrinkwrap.json",
-    "post-shrinkwrap": "git commit -am 'preversion: recreate shrinkwrap' ",
+    "preshrinkwrap": "echo empty-preshrinkwrap",
+    "postshrinkwrap": "git add npm-shrinkwrap.json && git commit -am 'preversion: recreate shrinkwrap'",
+    "shrinkwrapcleanup": "git rm npm-shrinkwrap.json && git commit -am 'postversion: remove shrinkwrap for develop'",
     "push": "git push --all && git push --tags",
-    "preversion": "npm run merge-to-master && npm shrinkwrap",
-    "postversion": "npm run merge-to-develop && npm run push"
+    "preversion": "npm run merge-to-master && npm run preshrinkwrap && npm shrinkwrap && npm run postshrinkwrap",
+    "postversion": "npm run merge-to-develop && npm run shrinkwrapcleanup && npm run push"
   },
   "author": "",
   "license": "ISC",
@@ -35,6 +38,7 @@
     "gulp-sass": "^2.1.1",
     "gulp-sourcemaps": "^1.6.0",
     "through2": "^2.0.0",
+    "url-join": "0.0.1",
     "vinyl-named": "^1.1.0"
   }
 }

@@ -3003,6 +3003,11 @@
         }
       }
     },
+    "url-join": {
+      "version": "0.0.1",
+      "from": "url-join@*",
+      "resolved": "https://registry.npmjs.org/url-join/-/url-join-0.0.1.tgz"
+    },
     "vinyl-named": {
       "version": "1.1.0",
       "from": "vinyl-named@>=1.1.0 <2.0.0",
