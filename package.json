@@ -1,6 +1,6 @@
 {
   "name": "gastropod-task-sass",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "gastropod addon",
   "main": "index.js",
   "repository": {
