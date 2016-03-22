@@ -9,7 +9,7 @@ var path = require('path'),
  * Framework
  */
 var gulpSass = require('gulp-sass'),
-	sass = require('gulp-sass/node_modules/node-sass'),
+	sass = require('node-sass'),
 	sourcemaps = require('gulp-sourcemaps'),
 	debug = require('debug')('gastropod/addons/tasks/sass'),
 	plumber = require('gulp-plumber'),
