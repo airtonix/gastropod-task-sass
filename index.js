@@ -53,6 +53,7 @@ module.exports = function (gulp, gastro){
 	}
 
 	var Config = gastro.Config,
+		Manifest = gastro.Manifest,
 		Urls = Config.context.Site.urls,
 		MediaRoot = path.join(Urls.root, Urls.media),
 		StaticRoot = path.join(Urls.root, Urls.static),
