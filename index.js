@@ -83,7 +83,7 @@ module.exports = function (gulp, gastro){
 			.pipe(sourcemaps.init())
 			.pipe(gulpSass(SassConfig).on('error', ErrorHandler))
 			.pipe(gulpIf(SassConfig.prefix, postcss([ autoprefixer(SassConfig.prefix) ])) )
-			.pipe(sourcemaps.write('.'))
+			.pipe(sourcemaps.write())
 			.pipe(logger.outgoing())
 			.pipe(gulp.dest(target));
 
