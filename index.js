@@ -58,11 +58,13 @@ module.exports = function (gulp, gastro){
 			Config.source.styles,
 			Config.filters.styles),
 
-		SassConfig = Config.plugins.css.sass || DEFAULT_CONFIG;
+		SassConfig = Object.assign(DEFAULT_CONFIG, Config.plugins.css.sass);
+
 		SassConfig.functions['media-url($url)'] = function (urlString, done) {
 				var output = path.join(MediaRoot, urlString.getValue());
 				done(new sass.types.String(output || 'error'));
 			};
+
 		SassConfig.functions['static-url($url)'] = function (urlString, done) {
 				var output = Manifest.db[urlString.getValue()] || urlString;
 				done(new sass.types.String(output || 'error'));
