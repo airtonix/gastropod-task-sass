@@ -1,20 +1,22 @@
-'use strict';
 /**
  * System
  */
-var path = require('path'),
-	url = require('url');
+var path = require('path');
 
 /**
  * Framework
  */
 var gulpSass = require('gulp-sass'),
 	sass = require('node-sass'),
+	postcss = require('gulp-postcss'),
+	autoprefixer = require('autoprefixer'),
+	gulpIf = require('gulp-if'),
 	sourcemaps = require('gulp-sourcemaps'),
 	debug = require('debug')('gastropod/addons/tasks/sass'),
 	plumber = require('gulp-plumber'),
 	named = require('vinyl-named'),
 	accept = require('check-args');
+
 
 /**
  * Project
@@ -23,35 +25,25 @@ var DEFAULT_CONFIG = {
 	errLogToConsole: true,
 	includePaths: [],
 	functions: []
-}
+};
 
 var buildPath = accept(String, String, String)
-				.to(function(root, staticRoot, section){
-					return path.join(root,
-									 staticRoot,
-									 section);
+				.to(function (root, staticRoot, section){
+					return path.join(root, staticRoot, section);
 				});
 
+var Logging = require('gastropod').Logging,
+	logger = new Logging.Logger('Sass'),
+	ErrorHandler = new Logging.ErrorHandler('Sass');
 
 /**
  * Exportable
  */
 module.exports = function (gulp, gastro){
-	var logger = gastro.Logging.Logger('Sass');
-	var PluginError = gastro.Plugins.util.PluginError;
 
 	/**
 	 * Constants
 	 */
-	function ErrorHandler (err) {
-		var error = new PluginError('scss', err, {
-			showStack: true
-		});
-		gastro.Plugins.util.log(error.formatted);
-		this.emit('end');
-		return
-	}
-
 	var Config = gastro.Config,
 		Manifest = gastro.Manifest,
 		Urls = Config.context.Site.urls,
@@ -59,46 +51,41 @@ module.exports = function (gulp, gastro){
 		StaticRoot = path.join(Urls.root, Urls.static),
 
 		target = buildPath(Config.target.root,
-						   Config.target.static,
-						   Config.target.styles),
+			Config.target.static,
+			Config.target.styles),
 
 		source = buildPath(Config.source.root,
-						   Config.source.styles,
-						   Config.filters.styles),
+			Config.source.styles,
+			Config.filters.styles),
 
 		SassConfig = Config.plugins.css.sass || DEFAULT_CONFIG;
-
-		debug('MediaRoot', MediaRoot);
-		debug('StaticRoot', StaticRoot);
-
-		SassConfig.functions = {
-
-			'media-url($url)': function (url, done) {
-				var output = path.join(MediaRoot, url.getValue());
+		SassConfig.functions['media-url($url)'] = function (urlString, done) {
+				var output = path.join(MediaRoot, urlString.getValue());
 				done(new sass.types.String(output || 'error'));
-			},
-
-			'static-url($url)': function (url, done) {
-				var output = Manifest.db[url.getValue()] || url;
+			};
+		SassConfig.functions['static-url($url)'] = function (urlString, done) {
+				var output = Manifest.db[urlString.getValue()] || urlString;
 				done(new sass.types.String(output || 'error'));
-			},
+			};
 
-		}
-	gulp.task('scss', function(done){
+	gulp.task('scss', function () {
 
-		debug('Starting');
-		debug(' > source', source);
-		debug(' > target', target);
+		logger.msg('Starting');
+		logger.msg(' > source', source);
+		logger.msg(' > target', target);
 
 		return gulp.src(source)
+			.pipe(logger.incoming())
 			.pipe(plumber(ErrorHandler))
 			.pipe(named())
 			.pipe(sourcemaps.init())
 			.pipe(gulpSass(SassConfig).on('error', ErrorHandler))
-			.pipe(sourcemaps.write('./maps'))
+			.pipe(gulpIf(SassConfig.prefix, postcss([ autoprefixer(SassConfig.prefix) ])) )
+			.pipe(sourcemaps.write('.'))
+			.pipe(logger.outgoing())
 			.pipe(gulp.dest(target));
 
 	});
 
 	debug('task registered');
-}
+};
