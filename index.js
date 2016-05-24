@@ -6,7 +6,8 @@ var path = require('path');
 /**
  * Framework
  */
-var gulpSass = require('gulp-sass'),
+var gulp = require('gulp'),
+	gulpSass = require('gulp-sass'),
 	sass = require('node-sass'),
 	postcss = require('gulp-postcss'),
 	autoprefixer = require('autoprefixer'),
@@ -33,32 +34,32 @@ var buildPath = accept(String, String, String)
 				});
 
 var Logging = require('gastropod').Logging,
+	Config = require('gastropod/src/config'),
+	Manifest = require('gastropod/src/core/manifest'),
 	logger = new Logging.Logger('Sass'),
 	ErrorHandler = new Logging.ErrorHandler('Sass');
 
 /**
  * Exportable
  */
-module.exports = function (gulp, gastro){
+module.exports = function (){
 
 	/**
 	 * Constants
 	 */
-	var Config = gastro.Config,
-		Manifest = gastro.Manifest,
-		Urls = Config.context.Site.urls,
+	var Urls = Config.Store.context.Site.urls,
 		MediaRoot = path.join(Urls.root, Urls.media),
 		StaticRoot = path.join(Urls.root, Urls.static),
 
-		target = buildPath(Config.target.root,
-			Config.target.static,
-			Config.target.styles),
+		target = buildPath(Config.Store.target.root,
+			Config.Store.target.static,
+			Config.Store.target.styles),
 
-		source = buildPath(Config.source.root,
-			Config.source.styles,
-			Config.filters.styles),
+		source = buildPath(Config.Store.source.root,
+			Config.Store.source.styles,
+			Config.Store.filters.styles),
 
-		SassConfig = Object.assign(DEFAULT_CONFIG, Config.plugins.css.sass);
+		SassConfig = Object.assign(DEFAULT_CONFIG, Config.Store.plugins.css.sass);
 
 		SassConfig.functions['media-url($url)'] = function (urlString, done) {
 				var output = path.join(MediaRoot, urlString.getValue());
