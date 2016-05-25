@@ -35,7 +35,7 @@ var buildPath = accept(String, String, String)
 
 var Logging = require('gastropod').Logging,
 	Config = require('gastropod/src/config'),
-	Manifest = require('gastropod/src/core/manifest'),
+	Manifest = require('gastropod/src/core/assets/manifest'),
 	logger = new Logging.Logger('Sass'),
 	ErrorHandler = new Logging.ErrorHandler('Sass');
 
