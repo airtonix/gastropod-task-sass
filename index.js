@@ -6,8 +6,7 @@ var path = require('path');
 /**
  * Framework
  */
-var gulp = require('gulp'),
-	gulpSass = require('gulp-sass'),
+var gulpSass = require('gulp-sass'),
 	sass = require('node-sass'),
 	postcss = require('gulp-postcss'),
 	autoprefixer = require('autoprefixer'),
@@ -42,7 +41,7 @@ var Logging = require('gastropod').Logging,
 /**
  * Exportable
  */
-module.exports = function (){
+module.exports = function (gulp) {
 
 	/**
 	 * Constants
