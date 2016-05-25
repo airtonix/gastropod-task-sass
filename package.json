@@ -31,6 +31,9 @@
   },
   "author": "",
   "license": "ISC",
+  "peerDependencies": {
+    "gastropod": "^1.2.1"
+  },
   "dependencies": {
     "gulp": "^3.9.0",
     "autoprefixer": "^6.3.6",
